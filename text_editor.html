@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<script>
+  text_element = [];
+  button_element = [];
+  break_element = [];
+  line_content = [];
+</script>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta http-equiv="content-language" content="en">
+
+   <script src="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.js"></script>
+
+  <title>Text editor</title>
+  <style>
+  .sticky{
+    position: sticky;
+    top: 0;
+  }
+  </style>
+  <div class="sticky" id="assumptions">
+
+  </div>
+  <script>
+    var assumptions = document.getElementById("assumptions");
+    for(let i=0;i<5;i++)
+    {
+      var assumption_frame = document.createElement("iframe");
+      assumption_frame.height="20";
+      assumption_frame.srcdoc="Predpoklad"
+      assumption_frame.style.background = 'white';
+      assumptions.appendChild(assumption_frame);
+      assumptions.appendChild(document.createElement("br"));
+    }
+  </script>
+</head>
+
+<body>
+    
+  <script>
+      
+
+    var new_button = document.createElement('input');
+    new_button.setAttribute("type","button");
+    new_button.setAttribute("value","New");
+    document.body.appendChild(new_button);
+    new_button.onclick = function(event) 
+    {
+        document.body.removeChild(new_button);
+        var input = document.createElement('input');
+        input.setAttribute("type","text");
+        input.setAttribute("placeholder","LaTeX text");
+        text_element.push(input);
+        var button = document.createElement('input');
+        button.setAttribute("type","button");
+        button.setAttribute("value","Submit");
+        button.setAttribute("id",text_element.length-1);
+        const index = text_element.length-1;
+        button.onclick = function()
+        {
+          myFunction(index);
+        };
+        button_element.push(button);
+        document.body.appendChild(input);
+        document.body.appendChild(button);
+        document.body.appendChild(new_button);
+        var br = document.createElement("br");
+        document.body.appendChild(br);
+        break_element.push(br);
+    }
+
+    function myFunction(index){
+      console.log(button_element[index].getAttribute("id"));
+      if(button_element[index].getAttribute("value")==="Submit")
+      {
+        var iframe = document.createElement("iframe");
+        var text = text_element[index].value;
+        line_content[index]=text;
+        iframe.height="20";
+        var generator = new latexjs.HtmlGenerator({styles:["stylesheet.css"]})
+        generator = latexjs.parse(text, { generator: generator })
+        var srclatex = generator.htmlDocument("https://cdn.jsdelivr.net/npm/latex.js@0.12.4/dist/").documentElement;
+        iframe.srcdoc = srclatex.outerHTML;
+        console.log(iframe.srcdoc)
+        document.body.replaceChild(iframe,text_element[index]);
+        text_element[index]=iframe;
+        button_element[index].setAttribute("value","Edit");
+      }
+      else if(button_element[index].getAttribute("value")==="Edit")
+      {
+        var text_input = document.createElement("input");
+        text_input.setAttribute("type","text");
+        text_input.value = line_content[index];
+        document.body.replaceChild(text_input,text_element[index]);
+        text_element[index]=text_input;
+        button_element[index].setAttribute("value","Submit");
+      }
+    }
+  </script>
+ 
+
+</body>
+
+</html>
