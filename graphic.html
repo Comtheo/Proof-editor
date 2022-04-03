@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="graphic" ng-controller="excontroller" ng-mousemove="move($event,mouse_down)" ng-init="mouse_down=0">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.js"></script>
+<script src="script.js"></script>
+<style>
+.circle {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    background-color: rgb(22, 16, 207);
+    border-radius: 50%;
+  }
+
+  .dialog {
+  position:absolute;
+  width: 170px;
+  height: 66px;
+  background: black;
+  left: 50%;
+  }
+/*Nasledujuci tvar bol prevzaty z https://css-tricks.com/the-shapes-of-css/*/
+  .tv {
+      position: absolute;
+      width: 200px;
+      height: 150px;
+      margin: 20px 0;
+      border-radius: 50% / 10%;
+      border-style: solid none;
+      border-color: black;
+      color: white;
+      text-align: center;
+      text-indent: .1em;
+    }
+    .tv:after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      right: -5%;
+      left: -5%;
+      border-style: none solid;
+      border-color: black;
+      background: inherit;
+      border-radius: 5% / 50%;
+    }
+   svg{
+      top: 0px;
+      left: 0px;
+      position: absolute;
+      z-index: -1;
+   }
+</style>
+<svg id="ssvvgg" height="2000" width="1000">
+</svg> 
+
+<div class="dialog" id="dial">
+  <input type="text" placeholder="Popis"></input>
+  <br>
+  <input type="text" placeholder="Poznamka"></input>
+  <br>
+  <input type="button" value="OK" ng-click="hide()" ></input>
+  <input type="button" value="New connection"></input>
+  </div>
+<div class="tv" id="circ1" ng-mousedown="mouse_down=1" ng-mouseup="mouse_down=0">
+    <iframe width="200" id="frame"></iframe>
+</div>
+{{edited}}
+<div class="tv" id="circ2" ng-mousedown="mouse_down=2" ng-mouseup="mouse_down=0">
+</div>
+<script>//var text = "$aaaaaaaaaaaaa$\\ $aaaaaaaaaaaaa$";
+    /*var generator = new latexjs.HtmlGenerator()
+    //var generator = new latexjs.HtmlGenerator()
+            generator = latexjs.parse(text, { generator: generator })
+            var srclatex = generator.htmlDocument("https://cdn.jsdelivr.net/npm/latex.js@0.12.4/dist/").documentElement;
+            document.getElementById("frame").setAttribute("srcdoc",srclatex.outerHTML);
+    */</script>
+<body>
+</body> 
+
+</html>
