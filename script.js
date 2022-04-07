@@ -3,23 +3,45 @@
   angular.module('graphic', [])
     .controller('excontroller', ['$window', '$scope', function($window, $scope) {
       
-      $scope.move = function(event,md) 
+      $scope.steps = [
+        {"Id":10,
+        "Description":"Description",
+        "Note":"Note",
+        "VerticalPos":"100px",
+        "HorizontalPos":"50"}
+      ]
+      var dragged = 0;
+      $scope.move = function(event) 
       {
-        
-        if(md!=0)
+        if(dragged!=-1)
         {
-          event.preventDefault();
-            //console.log(md);
+            event.preventDefault();
             var x = event.clientX;
             var y = event.clientY;
             var coords = "X: "+x+"Y: "+y;
-            document.getElementById("circ"+md).style.top=(y-75)+"px";
-            document.getElementById("circ"+md).style.left=(x-100)+"px";
-            /*var line = document.getElementById("line");
-            line.setAttribute("x2",x);
-            line.setAttribute("y2",y);*/
+            $scope.steps[dragged].VerticalPos = (y-75)+"px";
+            $scope.steps[dragged].HorizontalPos = (x-100)+"px";
         }
       };
+
+      $scope.setDraggable = function(index){
+        dragged = index;
+      }
+
+      $scope.unsetDraggable = function(){
+        dragged = -1;
+      }
+
+      $scope.addNew = function(){
+        $scope.steps.push({
+          "Id":10,
+        "Description":"Description",
+        "Note":"Note",
+        "VerticalPos":"100px",
+        "HorizontalPos":"50"
+        }
+        )
+      }
 
       $scope.hide = function(){
         document.getElementById("dial").style.display = "none";
