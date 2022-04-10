@@ -56,6 +56,16 @@
     position:absolute;
     z-index: -1;
   }
+/*Nasledujuci tvar bol prevzaty z https://css-tricks.com/the-shapes-of-css/*/
+  .triangle {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 50px solid transparent;
+      border-right: 50px solid transparent;
+      border-bottom: 100px solid black;
+      z-index: -1;
+    }
 </style>
 
 <div class="dialog" id="dial" style="display:none">
@@ -67,8 +77,13 @@
   <input type="button" value="New connection" ng-click="startConnecting()"></input>
 </div>
 <svg>
-  <line ng-repeat="connection in connections" stroke="black" ng-attr-x1={{connection.x1}} ng-attr-x2={{connection.x2}} ng-attr-y1={{connection.y1}} ng-attr-y2={{connection.y2}}></line>
-</svg>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" />
+    </marker>
+  </defs>
+  <line ng-repeat="connection in connections" stroke="black" marker-end="url(#arrowhead)" ng-attr-x1={{connection.x1}} ng-attr-x2={{connection.x2}} ng-attr-y1={{connection.y1}} ng-attr-y2={{connection.y2}}></line>
+</svg> 
 <script>
   //document.getElementById("dial").style.display = "none";
 </script>
