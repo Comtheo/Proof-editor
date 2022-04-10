@@ -44,12 +44,18 @@
       background: inherit;
       border-radius: 5% / 50%;
     }
-   svg{
-      top: 0px;
-      left: 0px;
-      position: absolute;
-      z-index: -1;
-   }
+    html, body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+  svg{
+    width:100%;
+    height:100%;
+    margin: 0;
+    position:absolute;
+    z-index: -1;
+  }
 </style>
 
 <div class="dialog" id="dial" style="display:none">
@@ -58,13 +64,16 @@
   <input type="text" placeholder="Poznamka" id="note_input"></input>
   <br>
   <input type="button" value="OK" ng-click="stopEditing()" ></input>
-  <input type="button" value="New connection"></input>
+  <input type="button" value="New connection" ng-click="startConnecting()"></input>
 </div>
+<svg>
+  <line ng-repeat="connection in connections" stroke="black" ng-attr-x1={{connection.x1}} ng-attr-x2={{connection.x2}} ng-attr-y1={{connection.y1}} ng-attr-y2={{connection.y2}}></line>
+</svg>
 <script>
   //document.getElementById("dial").style.display = "none";
 </script>
 <!--"-->
-<div ng-repeat="step in steps" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}"  ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()" ng-dblclick="editStep($index)">
+<div ng-repeat="step in steps" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}"  ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()" ng-dblclick="editStep($index)" ng-click="Connect($index)">
   <iframe width="200"  id="frame-{{$index}}"></iframe>
 </div>
 
