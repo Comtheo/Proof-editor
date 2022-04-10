@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-US" ng-app="graphic" ng-controller="excontroller" ng-mousemove="move($event)" ng-init="setDraggable(-1)">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta http-equiv="content-language" content="en">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-sanitize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.js"></script>
 <script src="script.js"></script>
 <style>
@@ -21,7 +28,7 @@
       border-radius: 50% / 10%;
       border-style: solid none;
       border-color: black;
-      color: white;
+      color: rgb(244, 11, 11);
       text-align: center;
       text-indent: .1em;
     }
@@ -45,18 +52,20 @@
    }
 </style>
 
-<div class="dialog" id="dial">
-  <input type="text" placeholder="Popis"></input>
+<div class="dialog" id="dial" style="display:none">
+  <input type="text" placeholder="Popis" id="text_input"></input>
   <br>
-  <input type="text" placeholder="Poznamka"></input>
+  <input type="text" placeholder="Poznamka" id="note_input"></input>
   <br>
-  <input type="button" value="OK" ng-click="hide()" ></input>
+  <input type="button" value="OK" ng-click="stopEditing()" ></input>
   <input type="button" value="New connection"></input>
 </div>
-
-<div ng-repeat="step in steps" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}" ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()">
-  
-   <!-- <iframe width="200" id="frame"></iframe>  -->
+<script>
+  //document.getElementById("dial").style.display = "none";
+</script>
+<!--"-->
+<div ng-repeat="step in steps" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}"  ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()" ng-dblclick="editStep($index)">
+  <iframe width="200"  id="frame-{{$index}}"></iframe>
 </div>
 
 <body>
