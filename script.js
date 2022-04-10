@@ -8,7 +8,7 @@
         "Note":"",
         "VerticalPos":"100px",
         "HorizontalPos":"50px",
-        "SRC":"<p>Hello world!</p>"}
+        "SRC":""}
       ]
 
       $scope.connections = [
@@ -17,7 +17,7 @@
       ]
 
 
-      var dragged = 0, connecting = false;
+      var dragged = -1, connecting = false, disconnecting = false;
       $scope.move = function(event) 
       {
         if(dragged!=-1)
@@ -74,11 +74,29 @@
       }
 
       $scope.startConnecting = function(){
-        window.alert("Click on an element to connect to");
         connecting = true;
+      }
+      
+      $scope.startDisconnecting = function(){
+        disconnecting = true;
       }
 
       $scope.Connect = function(index){
+        var success = false;
+        if(disconnecting)
+        {
+          for (let i=$scope.connections.length-1;i>=0;i--){
+            if(($scope.connections[i].id1==edited)||($scope.connections[i].id2==edited))
+            {
+              $scope.connections.splice(i,1);
+              success =true;
+              break;
+            }
+          }
+          disconnecting = false;
+          if(!success)
+            window.alert("Nothing to be disconnected");
+        }
         if((index==edited)&&connecting)
         {
           window.alert("Can't connect an element with itself")
@@ -100,8 +118,9 @@
         })
         connecting = false;
         window.alert("Connected");
-      }
         
+      }
+      document.getElementById("dial").style.display = "none";
       }
 
       $scope.unsetDraggable = function(){

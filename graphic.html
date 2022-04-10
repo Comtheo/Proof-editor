@@ -15,7 +15,7 @@
   .dialog {
   position:absolute;
   width: 170px;
-  height: 66px;
+  height: 110px;
   background: black;
   left: 50%;
   }
@@ -75,6 +75,8 @@
   <br>
   <input type="button" value="OK" ng-click="stopEditing()" ></input>
   <input type="button" value="New connection" ng-click="startConnecting()"></input>
+  <input type="button" value="Disconnect" ng-click="startDisconnecting()"></input>
+  <input type="button" value="Remove step"></input>
 </div>
 <svg>
   <defs>
@@ -84,10 +86,7 @@
   </defs>
   <line ng-repeat="connection in connections" stroke="black" marker-end="url(#arrowhead)" ng-attr-x1={{connection.x1}} ng-attr-x2={{connection.x2}} ng-attr-y1={{connection.y1}} ng-attr-y2={{connection.y2}}></line>
 </svg> 
-<script>
-  //document.getElementById("dial").style.display = "none";
-</script>
-<!--"-->
+
 <div ng-repeat="step in steps" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}"  ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()" ng-dblclick="editStep($index)" ng-click="Connect($index)">
   <iframe width="200"  id="frame-{{$index}}"></iframe>
 </div>
