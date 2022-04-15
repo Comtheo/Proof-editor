@@ -81,6 +81,24 @@
         disconnecting = true;
       }
 
+      $scope.removeStep = function(){
+        $scope.steps.splice(edited,1);
+        for(let i=$scope.connections.length-1;i>=0;i--)
+        {
+          if($scope.connections[i].id1==edited||$scope.connections[i].id2==edited)
+            $scope.connections.splice(i,1);
+          else
+          {
+            if($scope.connections[i].id1>edited)
+              $scope.connections[i].id1--;
+            if($scope.connections[i].id2>edited)
+              $scope.connections[i].id2--;
+          }
+        }
+        edited=-1;
+        document.getElementById("dial").style.display = "none";
+      }
+
       $scope.Connect = function(index){
         var success = false;
         if(disconnecting)
@@ -129,7 +147,6 @@
 
       $scope.addNew = function(){
         $scope.steps.push({
-          "Id":10,
         "Description":"Description",
         "Note":"Note",
         "VerticalPos":"100px",
