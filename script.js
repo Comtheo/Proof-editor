@@ -27,12 +27,43 @@
             var y = event.clientY;
             $scope.steps[dragged].VerticalPos = (y-75)+"px";
             $scope.steps[dragged].HorizontalPos = (x-100)+"px";
-            var other_x, other_y;
             for (let i=0;i<$scope.connections.length;i++){
               if(dragged == $scope.connections[i].id1)
               {
+                
+                var id2 = $scope.connections[i].id2;
+                var other_x = parseInt($scope.steps[id2].HorizontalPos,10);
+                var other_y = parseInt($scope.steps[id2].VerticalPos,10);
+                console.log($scope.quadrant(x,y,other_x,other_y));
                 $scope.connections[i].x1=x;
-                $scope.connections[i].y1=y;
+                    $scope.connections[i].y1=y;
+                /*switch($scope.quadrant(x,y,other_x,other_y))
+                {
+                  case 1:
+                    $scope.connections[i].x1=x-100;
+                    $scope.connections[i].y1=y+100;
+                    $scope.connections[i].x2=other_x+100;
+                    $scope.connections[i].y2=other_y-50;
+                    break;
+                  case 2:
+                    $scope.connections[i].x1=x+100;
+                    $scope.connections[i].y1=y+100;
+                    $scope.connections[i].x2=other_x-100;
+                    $scope.connections[i].y2=other_y-50;
+                    break;
+                  case 3:
+                    $scope.connections[i].x1=x+100;
+                    $scope.connections[i].y1=y-50;
+                    $scope.connections[i].x2=other_x-100;
+                    $scope.connections[i].y2=other_y+100;
+                    break;
+                  case 4:
+                    $scope.connections[i].x1=x-100;
+                    $scope.connections[i].y1=y-50;
+                    $scope.connections[i].x2=other_x+200;
+                    $scope.connections[i].y2=other_y+150;
+                    break;
+                }*/
                 
               }
               if(dragged == $scope.connections[i].id2)
@@ -42,6 +73,25 @@
               }
                       
             }
+        }
+      };
+
+      $scope.quadrant = function(x1, y1, x2, y2){
+        var delta_x = x1 - x2;
+        var delta_y = y1 - y2;
+        if(delta_x > 0)
+        {
+          if(delta_y>0)
+            return 4;
+          else
+            return 1;
+        }
+        else
+        {
+          if(delta_y>0)
+            return 3;
+          else
+            return 2;
         }
       };
 
@@ -104,7 +154,7 @@
         if(disconnecting)
         {
           for (let i=$scope.connections.length-1;i>=0;i--){
-            if(($scope.connections[i].id1==edited)||($scope.connections[i].id2==edited))
+            if(($scope.connections[i].id1==edited&&$scope.connections[i].id2==index)||($scope.connections[i].id2==edited&&$scope.connections[i].id1==index))
             {
               $scope.connections.splice(i,1);
               success =true;
