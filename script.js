@@ -7,15 +7,78 @@
         {"Description":"",
         "Note":"",
         "VerticalPos":"100px",
-        "HorizontalPos":"50px",
-        "SRC":""}
+        "HorizontalPos":"50px"}
       ]
 
       $scope.connections = [
-        {
-        }
       ]
 
+      $scope.export = function(){
+        let export_string=$scope.steps.length+"\n";
+        for(let i=0;i<$scope.steps.length;i++)
+        {
+          export_string = export_string + $scope.steps[i].Description+"\n";
+          export_string = export_string + $scope.steps[i].Note+"\n";
+          export_string = export_string + parseInt($scope.steps[i].VerticalPos,10) + "\n";
+          export_string = export_string + parseInt($scope.steps[i].HorizontalPos,10) + "\n";
+        }
+        export_string = export_string + $scope.connections.length + "\n";
+        for(let i=0;i<$scope.connections.length;i++)
+        {
+          var connection = $scope.connections[i];
+          export_string = export_string + connection.id1 + " " + connection.id2 + " " + connection.x1 + " " + connection.y1 + " " + connection.x2+ " " + connection.y2+"\n";
+        }
+        document.getElementById("download_link").href="data:,"+export_string;
+        document.getElementById("download_link").click();
+      }
+
+      $scope.proof_import = function(){
+        var f = document.getElementById("choose_imported").files[0];
+        const reader = new FileReader();
+        reader.onload = function(){
+          var lines = reader.result.split('\n');
+          let steps_count = parseInt(lines[0],10);
+          let connections_count = parseInt(lines[4*steps_count+1],10);
+          let connections_beginning = 4*steps_count+2;
+          $scope.steps = [];
+          $scope.connections = [];
+          for(let i=0;i<steps_count;i++)
+          {
+            let description = lines[4*i+1];
+            let note = lines[4*i+2];
+            let vertical_pos = lines[4*i+3];
+            let horizontal_pos = lines[4*i+4];
+            console.log(description + note + vertical_pos + horizontal_pos);
+            $scope.steps.push({
+              "Description":description,
+              "Note":note,
+              "VerticalPos":vertical_pos+"px",
+              "HorizontalPos":horizontal_pos+"px"
+              })
+          }
+          console.log(connections_count);
+          for(let i=0;i<connections_count;i++)
+          {
+            let line_index = i+connections_beginning;
+            let coords = lines[line_index].split(" ");
+            let id1 = parseInt(coords[0],10);
+            let id2 = parseInt(coords[1],10);
+            let x1 = parseInt(coords[2],10);
+            let y1 = parseInt(coords[3],10);
+            let x2 = parseInt(coords[4],10);
+            let y2 = parseInt(coords[5],10);
+            $scope.connections.push({
+              "id1":id1,
+              "id2":id2,
+              "x1":x1,
+              "x2":x2,
+              "y1":y1,
+              "y2":y2
+            })
+          }
+        };
+        reader.readAsText(f);
+      }
 
       var dragged = -1, connecting = false, disconnecting = false;
       $scope.move = function(event) 
@@ -93,10 +156,6 @@
           else
             return 2;
         }
-      };
-
-      $scope.getSrcDoc = function(index){
-        return $sce.trustAsHtml($scope.steps[index].SRC);
       };
 
       $scope.setDraggable = function(index){
@@ -197,13 +256,11 @@
 
       $scope.addNew = function(){
         $scope.steps.push({
-        "Description":"Description",
-        "Note":"Note",
+        "Description":"",
+        "Note":"",
         "VerticalPos":"100px",
-        "HorizontalPos":"50",
-        "SRC":"EditMe"
-        }
-        )
+        "HorizontalPos":"50"
+        })
       }
     }]);
   })(window.angular);

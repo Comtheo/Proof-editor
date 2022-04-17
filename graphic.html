@@ -92,7 +92,12 @@
 </div>
 
 <body>
-  <input type="button" ng-click="addNew()"></input>
+  <input type="button" value ="New step" ng-click="addNew()"></input>
+  <input type="button" value="Export" ng-click="export()"></input>
+ <input type="file" value="Import" id="choose_imported" accept=".txt"></input>
+ <input type="button" value="Import" ng-click="proof_import()"></input>
+  <a href="data:,abc" id="download_link" download="proof.txt" style="display:none">Export link</a>
 </body> 
 
 </html>
+
