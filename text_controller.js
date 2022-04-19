@@ -4,9 +4,9 @@
     .controller('text_controller', ['$window', '$scope', function($window, $scope) {
       
         $scope.steps = [
-            {"Description":"aaa",
+            {"Description":"",
             "Note":"",
-            "ButtonText":"Edit"}
+            "ButtonText":"Edit",}
         ];
 
         $scope.editing = false;
@@ -14,6 +14,11 @@
         $scope.connections = [
 
         ];
+
+        $scope.deleteStep = function(index){
+            if(!$scope.editing)
+                $scope.steps.splice(index,1);
+        }
 
         $scope.edit = function(index){
             if($scope.editing == false)
