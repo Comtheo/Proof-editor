@@ -10,10 +10,27 @@
         ];
 
         $scope.editing = false;
-
+        $scope.connection_predecessor = -1;
         $scope.connections = [
-
         ];
+
+        $scope.startConnecting = function(index){
+            if($scope.connection_predecessor == -1)
+                $scope.connection_predecessor = index;
+            else
+            {   
+                $scope.connections.push({"id1":$scope.connection_predecessor,"id2":index});
+                $scope.connection_predecessor = -1;
+            }
+        }
+
+        $scope.followers = function(index){
+            let followers_array = [];
+            for(let i=0;i<$scope.connections.length;i++)
+                if($scope.connections[i].id1==index)
+                    followers_array.push($scope.connections[i].id2);
+            return followers_array;
+        }
 
         $scope.deleteStep = function(index){
             if(!$scope.editing)

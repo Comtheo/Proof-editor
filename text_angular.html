@@ -10,7 +10,10 @@
     
     <iframe height="20" id="frame--{{$index}}"></iframe>
     <input type="button" ng-value="step.ButtonText" ng-click="edit($index)"></input>
+    <input type="button" value="Connect" ng-click="startConnecting($index)"></input>
     <input type="button" value="Delete" ng-click="deleteStep($index)"></input>
+    <span ng-if="followers($index).length">Followed by: </span>
+    <span ng-repeat="follower in followers($index)">{{follower}} </span>
     <br>
 </div>
 <input type="button" value="New" ng-click="addNew()"></input>
