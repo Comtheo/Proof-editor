@@ -5,26 +5,46 @@
       
         $scope.steps = [
             {"Description":"aaa",
-            "Note":""}
+            "Note":"",
+            "ButtonText":"Edit"}
         ];
 
-        $scope.editing = true;
+        $scope.editing = false;
 
         $scope.connections = [
 
         ];
 
         $scope.edit = function(index){
-            console.log(index);
-            var rect = document.getElementById("frame--"+index).getBoundingClientRect();
-            console.log(rect.top+" "+rect.left);
-            var text_field = document.getElementById("text_input");
-            text_field.style.top=rect.top+"px";
-            text_field.style.left=rect.left+"px";
+            if($scope.editing == false)
+            {
+                console.log(index);
+                var rect = document.getElementById("frame--"+index).getBoundingClientRect();
+                console.log(rect.top+" "+rect.left);
+                var text_field = document.getElementById("text_input");
+                text_field.style.top=rect.top+"px";
+                text_field.style.left=rect.left+"px";
+                text_field.value=$scope.steps[index].Description;
+                $scope.steps[index].ButtonText="Submit"
+                $scope.editing = true;
+                $scope.edited = index;
+            }
+            else
+            {
+                if($scope.edited==index)
+                {
+                    var generator = new latexjs.HtmlGenerator();
+                    $scope.steps[index].Description=document.getElementById("text_input").value;
+                    generator = latexjs.parse($scope.steps[index].Description, { generator: generator });
+                    document.getElementById("frame--"+index).srcdoc = generator.htmlDocument("https://cdn.jsdelivr.net/npm/latex.js@0.12.4/dist/").documentElement.outerHTML;
+                    $scope.steps[index].ButtonText="Edit"
+                    $scope.editing = false;
+                }
+            }
         };
 
         $scope.addNew = function(){
-            $scope.steps.push({"Description":"","Note":""})
+            $scope.steps.push({"Description":"","Note":"","ButtonText":"Edit"})
         };
 
     }]);

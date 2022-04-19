@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html ng-app="text" ng-controller="text_controller">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.js"></script>
+<script src="text_controller.js"></script>
+<body>
+
+<input type="text" id="text_input" style="position:absolute" ng-show="editing"></input>
+<div ng-repeat="step in steps">
+    
+    <iframe height="20" id="frame--{{$index}}"></iframe>
+    <input type="button" ng-value="step.ButtonText" ng-click="edit($index)"></input>
+    <br>
+</div>
+<input type="button" value="New" ng-click="addNew()"></input>
+
+</body>
+</html>
