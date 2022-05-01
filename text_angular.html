@@ -7,7 +7,7 @@
 
 <input type="text" id="text_input" style="position:absolute" ng-show="editing"></input>
 <div ng-repeat="step in steps">
-    
+    {{$index}}
     <iframe height="20" id="frame--{{$index}}"></iframe>
     <input type="button" ng-value="step.ButtonText" ng-click="edit($index)"></input>
     <input type="button" value="Connect" ng-click="startConnecting($index)"></input>

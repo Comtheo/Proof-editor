@@ -34,7 +34,21 @@
 
         $scope.deleteStep = function(index){
             if(!$scope.editing)
+            {
                 $scope.steps.splice(index,1);
+                for(let i=$scope.connections.length-1;i>=0;i--)
+                {
+                  if($scope.connections[i].id1==index||$scope.connections[i].id2==index)
+                    $scope.connections.splice(i,1);
+                  else
+                  {
+                    if($scope.connections[i].id1>index)
+                      $scope.connections[i].id1--;
+                    if($scope.connections[i].id2>index)
+                      $scope.connections[i].id2--;
+                  }
+                }
+            }
         }
 
         $scope.edit = function(index){
