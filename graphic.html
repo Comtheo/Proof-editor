@@ -87,12 +87,13 @@
   <line ng-repeat="connection in connections" stroke="black" marker-end="url(#arrowhead)" ng-attr-x1={{connection.x1}} ng-attr-x2={{connection.x2}} ng-attr-y1={{connection.y1}} ng-attr-y2={{connection.y2}}></line>
 </svg> 
 
-<div ng-repeat="step in steps" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}"  ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()" ng-dblclick="editStep($index)" ng-click="Connect($index)">
+<div ng-repeat="step in steps" ng-show="step.Visible" class="tv" ng-style="{top:step.VerticalPos,left:step.HorizontalPos}"  ng-mousedown="setDraggable($index)" ng-mouseup="unsetDraggable()" ng-dblclick="editStep($index)" ng-click="Connect($index)">
   <iframe width="200"  id="frame-{{$index}}"></iframe>
 </div>
 
 <body>
   <input type="button" value ="New step" ng-click="addNew()"></input>
+  <input type="button" value="Learn" ng-click="startLearning()"></input>
   <input type="button" value="Export" ng-click="export()"></input>
  <input type="file" value="Import" id="choose_imported" accept=".txt"></input>
  <input type="button" value="Import" ng-click="proof_import()"></input>

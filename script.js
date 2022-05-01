@@ -7,7 +7,8 @@
         {"Description":"",
         "Note":"",
         "VerticalPos":"100px",
-        "HorizontalPos":"50px"}
+        "HorizontalPos":"50px",
+        "Visible":1}
       ]
 
       $scope.connections = [
@@ -78,6 +79,51 @@
           }
         };
         reader.readAsText(f);
+      }
+
+      $scope.followers = function(index){
+        let followers_array = [];
+        for(let i=0;i<$scope.connections.length;i++)
+            if($scope.connections[i].id1==index)
+                followers_array.push($scope.connections[i].id2);
+        return followers_array;
+    }
+      $scope.learning = 0;
+      $scope.startLearning = function(){
+        if($scope.learning == 0)
+        {
+          $scope.learn_array = [];
+          var visited =[];
+          for (var i = 0; i < $scope.steps.length; i++) visited[i] = 0;
+          for(var i=0;i<$scope.steps.length;i++)
+          {
+            let followers_arr = $scope.followers(i);
+            if(visited[i]==0)
+            {
+              $scope.learn_array.push(i);
+              visited[i]=1;
+              for(var j=0;j<followers_arr.length;j++)
+              {
+                if(visited[followers_arr[j]]==0)
+                {
+                  $scope.learn_array.push(followers_arr[j]);
+                  visited[followers_arr[j]]=1;
+                }
+              }
+            }
+          }
+          for(var i=0;i<$scope.steps.length;i++)
+            $scope.steps[i].Visible = 0;
+          $scope.next_to_show = 0;
+          $scope.learning = 1;
+        }
+        else
+        {
+          $scope.steps[$scope.learn_array[$scope.next_to_show]].Visible = 1;
+          $scope.next_to_show++;
+          if($scope.next_to_show == $scope.steps.length)
+            $scope.learning = 0;
+        }
       }
 
       var dragged = -1, connecting = false, disconnecting = false;
@@ -259,8 +305,8 @@
         "Description":"",
         "Note":"",
         "VerticalPos":"100px",
-        "HorizontalPos":"50"
-        })
+        "HorizontalPos":"50",
+        "Visible":1})
       }
     }]);
   })(window.angular);
